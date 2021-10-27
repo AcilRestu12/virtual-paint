@@ -5,7 +5,7 @@ import numpy as np
 frameWidth = 1024
 frameHeight = 768
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 # cap.set(3, frameWidth)            # Resize lebar dari frame
 # cap.set(4, frameHeight)           # Resize tinggi dari frame
 
