@@ -97,6 +97,20 @@ def resizeImg(img, width, height):
     return img
 
 
+def readWebcam():
+    global cap
+    sucess, img = cap.read()
+    imgCV = cv.cvtColor(img, cv.COLOR_BGR2RGBA)
+    imgCV = resizeImg(imgCV, 852, 480)
+    imgPill = Image.fromarray(imgCV)
+    imgtk = ImageTk.PhotoImage(image=imgPill)
+    lblOriImg.imgtk = imgtk
+    lblOriImg.configure(image=imgtk)
+    lblOriImg.pack()
+    lblOriImg.after(1, readWebcam)
+    
+
+
 if __name__ == '__main__':
     
         
@@ -144,28 +158,16 @@ if __name__ == '__main__':
     # btnExit.grid(row=0, column=2, columnspan=2, padx=20)
     btnExit.pack(side='left', padx=37, pady=10)
 
+    cap = cv.VideoCapture(0)
 
 
     window.title("Virtual Paint")
     # window.geometry("1280x720")
     window.resizable(0, 0)
+    window.after(1, readWebcam)
     window.mainloop()
 
-    frameWidth = 640
-    frameHeight = 480
-    cap = cv.VideoCapture(0)
+    
     # cap.set(3, frameWidth)            # Resize lebar dari frame
     # cap.set(4, frameHeight)           # Resize tinggi dari frame
     
-    while True:
-        sucess, img = cap.read()
-        # cv.imshow("Video", img)
-        
-        setOriginal(opencv2Pill(resizeImg(img, 852, 480)))
-
-        if cv.waitKey(1) & 0xFF == ord('q'):
-            break    
-
-
-    cap.release()
-    cv.destroyAllWindows()

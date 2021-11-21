@@ -12,14 +12,20 @@ lmain = Label(app)
 lmain.grid()
 # Capture from camera
 cap = cv2.VideoCapture(0)
+
+i = 0
+
 def video_stream():
+    global i 
+    print(i)
     _, frame = cap.read()
-    print(frame)
+    # print(frame)
     cv2image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
     img = Image.fromarray(cv2image)
     imgtk = ImageTk.PhotoImage(image=img)
     lmain.imgtk = imgtk
     lmain.configure(image=imgtk)
     lmain.after(1, video_stream)
+    i += 1
 root.after(1, video_stream)
 root.mainloop()
