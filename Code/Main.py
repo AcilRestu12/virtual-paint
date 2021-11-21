@@ -97,7 +97,7 @@ def resizeImg(img, width, height):
     return img
 
 
-def readWebcam():
+def videoStream():
     global cap
     sucess, img = cap.read()
     imgCV = cv.cvtColor(img, cv.COLOR_BGR2RGBA)
@@ -107,7 +107,7 @@ def readWebcam():
     lblOriImg.imgtk = imgtk
     lblOriImg.configure(image=imgtk)
     lblOriImg.pack()
-    lblOriImg.after(1, readWebcam)
+    lblOriImg.after(1, videoStream)
     
 
 
@@ -164,7 +164,7 @@ if __name__ == '__main__':
     window.title("Virtual Paint")
     # window.geometry("1280x720")
     window.resizable(0, 0)
-    window.after(1, readWebcam)
+    window.after(1, videoStream)
     window.mainloop()
 
     
