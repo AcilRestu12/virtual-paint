@@ -29,6 +29,20 @@ def videoStream():
     lblImgRes.pack()
     lblImgRes.after(1, videoStream)
 
+def sldMove(e):
+    hueMin = int(sldHueMin.get())
+    satMin = int(sldSatMin.get())
+    valueMin = int(sldValueMin.get())
+    hueMax = int(sldHueMax.get())
+    satMax = int(sldSatMax.get())
+    valueMax = int(sldValueMax.get())
+    
+    lblHueMin.configure(text=f'HUE Min : {hueMin}')
+    lblSatMin.configure(text=f'SAT Min : {satMin}')
+    lblValueMin.configure(text=f'VALUE Min : {valueMin}')
+    lblHueMax.configure(text=f'HUE Max : {hueMax}')
+    lblSatMax.configure(text=f'SAT Max : {satMax}')
+    lblValueMax.configure(text=f'VALUE Max : {valueMax}')
 
 
 if __name__ == '__main__':
@@ -89,33 +103,33 @@ if __name__ == '__main__':
 
     # Slider
 
-    sldHueMin = ttk.Scale(frmSliderMin, from_=0, to=179, value=0, orient='horizontal', style='info.Horizontal.TScale', length=255)
-    lblHueMin = ttk.Label(frmSliderMin, text=f'HUE Min : {sldHueMin.get()}', style='info.Inverse.TLabel')
+    sldHueMin = ttk.Scale(frmSliderMin, from_=0, to=179, value=0, orient='horizontal', style='info.Horizontal.TScale', length=256, command=sldMove)
+    lblHueMin = ttk.Label(frmSliderMin, text=f'HUE Min : {sldHueMin.get()}', style='info.Inverse.TLabel', width=15)
     lblHueMin.grid(row=0, column=0, padx=20, pady=10)
     sldHueMin.grid(row=0, column=1, padx=20, pady=10)
 
-    sldSatMin = ttk.Scale(frmSliderMin, from_=0, to=255, value=0, orient='horizontal', style='info.Horizontal.TScale', length=255)
-    lblSatMin = ttk.Label(frmSliderMin, text=f'SAT Min : {sldSatMin.get()}', style='info.Inverse.TLabel')
+    sldSatMin = ttk.Scale(frmSliderMin, from_=0, to=255, value=0, orient='horizontal', style='info.Horizontal.TScale', length=256, command=sldMove)
+    lblSatMin = ttk.Label(frmSliderMin, text=f'SAT Min : {sldSatMin.get()}', style='info.Inverse.TLabel', width=15)
     lblSatMin.grid(row=1, column=0, padx=20, pady=10)
     sldSatMin.grid(row=1, column=1, padx=20, pady=10)
 
-    sldValueMin = ttk.Scale(frmSliderMin, from_=0, to=255, value=0, orient='horizontal', style='info.Horizontal.TScale', length=255)
-    lblValueMin = ttk.Label(frmSliderMin, text=f'VALUE Min : {sldValueMin.get()}', style='info.Inverse.TLabel')
+    sldValueMin = ttk.Scale(frmSliderMin, from_=0, to=255, value=0, orient='horizontal', style='info.Horizontal.TScale', length=256, command=sldMove)
+    lblValueMin = ttk.Label(frmSliderMin, text=f'VALUE Min : {sldValueMin.get()}', style='info.Inverse.TLabel', width=15)
     lblValueMin.grid(row=2, column=0, padx=20, pady=10)
     sldValueMin.grid(row=2, column=1, padx=20, pady=10)
 
-    sldHueMax = ttk.Scale(frmSliderMax, from_=0, to=179, value=179, orient='horizontal', style='info.Horizontal.TScale', length=255)
-    lblHueMax = ttk.Label(frmSliderMax, text=f'HUE Max : {sldHueMax.get()}', style='info.Inverse.TLabel')
+    sldHueMax = ttk.Scale(frmSliderMax, from_=0, to=179, value=179, orient='horizontal', style='info.Horizontal.TScale', length=256, command=sldMove)
+    lblHueMax = ttk.Label(frmSliderMax, text=f'HUE Max : {sldHueMax.get()}', style='info.Inverse.TLabel', width=15)
     lblHueMax.grid(row=0, column=0, padx=20, pady=10)
     sldHueMax.grid(row=0, column=1, padx=20, pady=10)
 
-    sldSatMax = ttk.Scale(frmSliderMax, from_=0, to=255, value=255, orient='horizontal', style='info.Horizontal.TScale', length=255)
-    lblSatMax = ttk.Label(frmSliderMax, text=f'SAT Max : {sldSatMax.get()}', style='info.Inverse.TLabel')
+    sldSatMax = ttk.Scale(frmSliderMax, from_=0, to=255, value=255, orient='horizontal', style='info.Horizontal.TScale', length=256, command=sldMove)
+    lblSatMax = ttk.Label(frmSliderMax, text=f'SAT Max : {sldSatMax.get()}', style='info.Inverse.TLabel', width=15)
     lblSatMax.grid(row=1, column=0, padx=20, pady=10)
     sldSatMax.grid(row=1, column=1, padx=20, pady=10)
 
-    sldValueMax = ttk.Scale(frmSliderMax, from_=0, to=255, value=255, orient='horizontal', style='info.Horizontal.TScale', length=255)
-    lblValueMax = ttk.Label(frmSliderMax, text=f'VALUE Max : {sldValueMax.get()}', style='info.Inverse.TLabel')
+    sldValueMax = ttk.Scale(frmSliderMax, from_=0, to=255, value=255, orient='horizontal', style='info.Horizontal.TScale', length=256, command=sldMove)
+    lblValueMax = ttk.Label(frmSliderMax, text=f'VALUE Max : {sldValueMax.get()}', style='info.Inverse.TLabel', width=15)
     lblValueMax.grid(row=2, column=0, padx=20, pady=10)
     sldValueMax.grid(row=2, column=1, padx=20, pady=10)
 
@@ -124,7 +138,7 @@ if __name__ == '__main__':
     window.title("Virtual Paint")
     # window.geometry("1280x720")
     # window.resizable(0, 0)
-    window.after(1, videoStream)
+    # window.after(1, videoStream)
     window.mainloop()
 
 
