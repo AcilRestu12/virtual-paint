@@ -94,8 +94,8 @@ if __name__ == '__main__':
     btnResult = ttk.Button(frmBtn, text='Result', style='success.TButton', cursor="hand2", width=12)
     btnResult.pack(side='top', padx=33, pady=33)
 
-    btnAddColor = ttk.Button(frmBtn, text='Add Color', style='success.TButton', cursor="hand2", width=12)
-    btnAddColor.pack(side='top', padx=33, pady=33)
+    btnAddObject = ttk.Button(frmBtn, text='Add Object', style='success.TButton', cursor="hand2", width=12)
+    btnAddObject.pack(side='top', padx=33, pady=33)
 
     btnExit = ttk.Button(frmBtn, text='Back', style='danger.TButton', cursor="hand2", width=12)
     btnExit.pack(side='top', padx=33, pady=33)
