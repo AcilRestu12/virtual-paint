@@ -31,6 +31,16 @@ def setResultOn():
     oriOn, maskOn, hsvOn = False, False, False
     print(f'\nResult : {resultOn}')
     
+def addColor():
+    hueMin = int(sldHueMin.get())
+    satMin = int(sldSatMin.get())
+    valueMin = int(sldValueMin.get())
+    hueMax = int(sldHueMax.get())
+    satMax = int(sldSatMax.get())
+    valueMax = int(sldValueMax.get())
+    
+    colorObject.append([hueMin, satMin, valueMin, hueMax, satMax, valueMax])
+    
 def resizeImg(img, width, height):
     img = cv.resize(img, (width, height), interpolation=cv.INTER_CUBIC)
     return img
@@ -94,15 +104,15 @@ def videoStream():
         print("\nOriginal On")
         pass
     
-    imgCV = resizeImg(imgCV, 852, 480)
-    imgPill = Image.fromarray(imgCV)
-    imgtk = ImageTk.PhotoImage(image=imgPill)
+    # imgCV = resizeImg(imgCV, 852, 480)
+    # imgPill = Image.fromarray(imgCV)
+    # imgtk = ImageTk.PhotoImage(image=imgPill)
     
     
-    lblImgRes.imgtk = imgtk
-    lblImgRes.configure(image=imgtk)
-    lblImgRes.pack()
-    lblImgRes.after(1, videoStream)
+    # lblImgRes.imgtk = imgtk
+    # lblImgRes.configure(image=imgtk)
+    # lblImgRes.pack()
+    # lblImgRes.after(1, videoStream)
 
 
 def sldMove(e):
@@ -128,6 +138,8 @@ if __name__ == '__main__':
     
     oriOn = True
     hsvOn, maskOn, resultOn = False, False, False
+
+    colorObject = []
 
     cap = cv.VideoCapture(0)
 
@@ -177,7 +189,7 @@ if __name__ == '__main__':
     btnResult = ttk.Button(frmBtn, text='Result', style='success.TButton', cursor="hand2", width=12, command=setResultOn)
     btnResult.pack(side='top', padx=33, pady=25)
 
-    btnAddColor = ttk.Button(frmBtn, text='Add Color', style='success.TButton', cursor="hand2", width=12)
+    btnAddColor = ttk.Button(frmBtn, text='Add Color', style='success.TButton', cursor="hand2", width=12, command=addColor)
     btnAddColor.pack(side='top', padx=33, pady=25)
 
     btnExit = ttk.Button(frmBtn, text='Back', style='danger.TButton', cursor="hand2", width=12)
