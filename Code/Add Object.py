@@ -13,12 +13,95 @@ def resizeImg(img, width, height):
     img = cv.resize(img, (width, height), interpolation=cv.INTER_CUBIC)
     return img
 
+def ori():
+    pass
+
+def hsv(img):
+    imgHSV = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+    return imgHSV
+
+def mask(img):
+    hueMin = int(sldHueMin.get())
+    satMin = int(sldSatMin.get())
+    valueMin = int(sldValueMin.get())
+    hueMax = int(sldHueMax.get())
+    satMax = int(sldSatMax.get())
+    valueMax = int(sldValueMax.get())
+    
+    imgHSV = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+    lower = np.array([hueMin, satMin, valueMin])
+    upper = np.array([hueMax, satMax, valueMax])
+    mask = cv.inRange(imgHSV, lower, upper)
+    
+    mask = cv.cvtColor(mask, cv.COLOR_GRAY2BGR)
+    return mask
+
+def result(img):
+    hueMin = int(sldHueMin.get())
+    satMin = int(sldSatMin.get())
+    valueMin = int(sldValueMin.get())
+    hueMax = int(sldHueMax.get())
+    satMax = int(sldSatMax.get())
+    valueMax = int(sldValueMax.get())
+    
+    imgHSV = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+    lower = np.array([hueMin, satMin, valueMin])
+    upper = np.array([hueMax, satMax, valueMax])
+    mask = cv.inRange(imgHSV, lower, upper)
+    
+    result = cv.bitwise_and(img, img, mask = mask)
+    return result
+
+
+def setMaskOn():
+    global maskOn, hsvOn, resultOn
+    
+    maskOn = True
+    hsvOn, resultOn = False, False
+    
+    print(f'\nMask : {maskOn}')
+    
+
+    
+def setHsvOn():
+    global maskOn, hsvOn, resultOn
+    
+    hsvOn = True
+    maskOn, resultOn = False, False
+    
+    print(f'\nHSV : {hsvOn}')
+    
+    
+    
+def setResultOn():
+    global maskOn, hsvOn, resultOn
+    
+    resultOn = True
+    maskOn, hsvOn = False, False
+    
+    print(f'\nResult : {resultOn}')
+    
+
 
 def videoStream():
-    global cap
+    global cap, maskOn, hsvOn, resultOn
     
     sucess, img = cap.read()
     imgCV = cv.cvtColor(img, cv.COLOR_BGR2RGBA)
+
+    if hsvOn:
+        imgCV = hsv(imgCV)
+        print('\nHSV On')
+    elif maskOn:
+        imgCV = mask(imgCV)
+        print("\nMask On")
+    elif resultOn:
+        imgCV = result(imgCV)
+        print("\nResult On")
+    else:
+        print("\nOriginal On")
+        pass
+    
     imgCV = resizeImg(imgCV, 852, 480)
     imgPill = Image.fromarray(imgCV)
     imgtk = ImageTk.PhotoImage(image=imgPill)
@@ -28,6 +111,7 @@ def videoStream():
     lblImgRes.configure(image=imgtk)
     lblImgRes.pack()
     lblImgRes.after(1, videoStream)
+
 
 def sldMove(e):
     hueMin = int(sldHueMin.get())
@@ -49,6 +133,8 @@ if __name__ == '__main__':
     
     style = Style()
     window = style.master
+    
+    hsvOn, maskOn, resultOn = False, False, False
 
     cap = cv.VideoCapture(0)
 
@@ -85,13 +171,13 @@ if __name__ == '__main__':
 
     # Button
 
-    btnMask = ttk.Button(frmBtn, text='Mask', style='success.TButton', cursor="hand2", width=12)
+    btnMask = ttk.Button(frmBtn, text='Mask', style='success.TButton', cursor="hand2", width=12, command=setMaskOn)
     btnMask.pack(side='top', padx=33, pady=33)
 
-    btnHSV = ttk.Button(frmBtn, text='HSV', style='success.TButton', cursor="hand2", width=12)
+    btnHSV = ttk.Button(frmBtn, text='HSV', style='success.TButton', cursor="hand2", width=12, command=setHsvOn)
     btnHSV.pack(side='top', padx=33, pady=33)
 
-    btnResult = ttk.Button(frmBtn, text='Result', style='success.TButton', cursor="hand2", width=12)
+    btnResult = ttk.Button(frmBtn, text='Result', style='success.TButton', cursor="hand2", width=12, command=setResultOn)
     btnResult.pack(side='top', padx=33, pady=33)
 
     btnAddObject = ttk.Button(frmBtn, text='Add Object', style='success.TButton', cursor="hand2", width=12)
@@ -137,8 +223,8 @@ if __name__ == '__main__':
 
     window.title("Virtual Paint")
     # window.geometry("1280x720")
-    # window.resizable(0, 0)
-    # window.after(1, videoStream)
+    window.resizable(0, 0)
+    window.after(1, videoStream)
     window.mainloop()
 
 
