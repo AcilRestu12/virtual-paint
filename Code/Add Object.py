@@ -7,14 +7,33 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 
+def setOriOn():
+    global oriOn, maskOn, hsvOn, resultOn
+    oriOn = True
+    maskOn, hsvOn, resultOn = False, False, False
+    print(f'\Original : {oriOn}')
 
+def setMaskOn():
+    global oriOn, maskOn, hsvOn, resultOn
+    maskOn = True
+    oriOn, hsvOn, resultOn = False, False, False
+    print(f'\nMask : {maskOn}')
+    
+def setHsvOn():
+    global oriOn, maskOn, hsvOn, resultOn
+    hsvOn = True
+    oriOn, maskOn, resultOn = False, False, False
+    print(f'\nHSV : {hsvOn}')
+    
+def setResultOn():
+    global oriOn, maskOn, hsvOn, resultOn
+    resultOn = True
+    oriOn, maskOn, hsvOn = False, False, False
+    print(f'\nResult : {resultOn}')
     
 def resizeImg(img, width, height):
     img = cv.resize(img, (width, height), interpolation=cv.INTER_CUBIC)
     return img
-
-def ori():
-    pass
 
 def hsv(img):
     imgHSV = cv.cvtColor(img, cv.COLOR_BGR2HSV)
@@ -51,45 +70,18 @@ def result(img):
     
     result = cv.bitwise_and(img, img, mask = mask)
     return result
-
-
-def setMaskOn():
-    global maskOn, hsvOn, resultOn
     
-    maskOn = True
-    hsvOn, resultOn = False, False
-    
-    print(f'\nMask : {maskOn}')
-    
-
-    
-def setHsvOn():
-    global maskOn, hsvOn, resultOn
-    
-    hsvOn = True
-    maskOn, resultOn = False, False
-    
-    print(f'\nHSV : {hsvOn}')
-    
-    
-    
-def setResultOn():
-    global maskOn, hsvOn, resultOn
-    
-    resultOn = True
-    maskOn, hsvOn = False, False
-    
-    print(f'\nResult : {resultOn}')
-    
-
 
 def videoStream():
-    global cap, maskOn, hsvOn, resultOn
+    global cap, oriOn, maskOn, hsvOn, resultOn
     
     sucess, img = cap.read()
     imgCV = cv.cvtColor(img, cv.COLOR_BGR2RGBA)
 
-    if hsvOn:
+    if oriOn:
+        print("\nOriginal On")
+        pass
+    elif hsvOn:
         imgCV = hsv(imgCV)
         print('\nHSV On')
     elif maskOn:
@@ -134,6 +126,7 @@ if __name__ == '__main__':
     style = Style()
     window = style.master
     
+    oriOn = True
     hsvOn, maskOn, resultOn = False, False, False
 
     cap = cv.VideoCapture(0)
@@ -169,22 +162,26 @@ if __name__ == '__main__':
     # lblImgRes.pack()
 
 
+    
     # Button
 
+    btnOri = ttk.Button(frmBtn, text='Original', style='success.TButton', cursor="hand2", width=12, command=setOriOn)
+    btnOri.pack(side='top', padx=33, pady=25)
+
     btnMask = ttk.Button(frmBtn, text='Mask', style='success.TButton', cursor="hand2", width=12, command=setMaskOn)
-    btnMask.pack(side='top', padx=33, pady=33)
+    btnMask.pack(side='top', padx=33, pady=25)
 
     btnHSV = ttk.Button(frmBtn, text='HSV', style='success.TButton', cursor="hand2", width=12, command=setHsvOn)
-    btnHSV.pack(side='top', padx=33, pady=33)
+    btnHSV.pack(side='top', padx=33, pady=25)
 
     btnResult = ttk.Button(frmBtn, text='Result', style='success.TButton', cursor="hand2", width=12, command=setResultOn)
-    btnResult.pack(side='top', padx=33, pady=33)
+    btnResult.pack(side='top', padx=33, pady=25)
 
-    btnAddObject = ttk.Button(frmBtn, text='Add Object', style='success.TButton', cursor="hand2", width=12)
-    btnAddObject.pack(side='top', padx=33, pady=33)
+    btnAddColor = ttk.Button(frmBtn, text='Add Color', style='success.TButton', cursor="hand2", width=12)
+    btnAddColor.pack(side='top', padx=33, pady=25)
 
     btnExit = ttk.Button(frmBtn, text='Back', style='danger.TButton', cursor="hand2", width=12)
-    btnExit.pack(side='top', padx=33, pady=33)
+    btnExit.pack(side='top', padx=33, pady=25)
 
 
     # Slider
