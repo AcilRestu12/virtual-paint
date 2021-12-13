@@ -36,10 +36,13 @@ frmSlider = ttk.Frame(frm, style='secondary.TFrame', width=1055, height=150)
 frmSlider.grid(row=1, column=0, columnspan=2, padx=50, pady=(20,50))
 
 frmSliderMin = ttk.Frame(frmSlider, style='info.TFrame', width=500, height=150)
-frmSliderMin.grid(row=0, column=0, padx=15, pady=15)
+frmSliderMin.grid(row=0, column=0, padx=(20,30), pady=20)
+
+# frmSelectColor = ttk.Frame(frmSlider, style='info.TFrame', width=100, height=120)
+# frmSelectColor.grid(row=0, column=1, padx=15, pady=15)
 
 frmSliderMax = ttk.Frame(frmSlider, style='info.TFrame', width=500, height=150)
-frmSliderMax.grid(row=0, column=1, padx=15, pady=15)
+frmSliderMax.grid(row=0, column=1, padx=(30,20), pady=20)
 
 
 lblImgRes = ttk.Label(frmResult)
@@ -49,32 +52,42 @@ lblImgRes = ttk.Label(frmResult)
 # Button
 
 btnOri = ttk.Button(frmBtn, text='Original', style='success.TButton', cursor="hand2", width=12)
-btnOri.pack(side='top', padx=33, pady=25)
+btnOri.pack(side='top', padx=33, pady=19)
 
 btnMask = ttk.Button(frmBtn, text='Mask', style='success.TButton', cursor="hand2", width=12)
-# btnMask.grid(row=2, column=0, padx=5, pady=25)
-btnMask.pack(side='top', padx=33, pady=25)
+# btnMask.grid(row=2, column=0, padx=5, pady=19)
+btnMask.pack(side='top', padx=33, pady=19)
 # btnMask.pack(side='top', padx=33, pady=20)
 
 btnHSV = ttk.Button(frmBtn, text='HSV', style='success.TButton', cursor="hand2", width=12)
-# btnHSV.grid(row=2, column=0, padx=5, pady=25)
-btnHSV.pack(side='top', padx=33, pady=25)
+# btnHSV.grid(row=2, column=0, padx=5, pady=19)
+btnHSV.pack(side='top', padx=33, pady=19)
 # btnHSV.pack(side='top', padx=33, pady=20)
 
 btnResult = ttk.Button(frmBtn, text='Result', style='success.TButton', cursor="hand2", width=12)
-# btnResult.grid(row=2, column=0, padx=5, pady=25)
-btnResult.pack(side='top', padx=33, pady=25)
+# btnResult.grid(row=2, column=0, padx=5, pady=19)
+btnResult.pack(side='top', padx=33, pady=19)
 # btnResult.pack(side='top', padx=33, pady=20)
 
+btnAddObject = ttk.Button(frmBtn, text='Add Object', style='success.TButton', cursor="hand2", width=12)
+# btnAddObject.grid(row=2, column=0, padx=5, pady=19)
+btnAddObject.pack(side='top', padx=33, pady=19)
+# btnAddObject.pack(side='top', padx=33, pady=20)
+
 btnAddColor = ttk.Button(frmBtn, text='Add Color', style='success.TButton', cursor="hand2", width=12)
-# btnAddColor.grid(row=2, column=0, padx=5, pady=25)
-btnAddColor.pack(side='top', padx=33, pady=25)
+# btnAddColor.grid(row=2, column=0, padx=5, pady=19)
+btnAddColor.pack(side='top', padx=33, pady=19)
 # btnAddColor.pack(side='top', padx=33, pady=20)
 
 btnExit = ttk.Button(frmBtn, text='Back', style='danger.TButton', cursor="hand2", width=12)
 # btnExit.grid(row=0, column=2, columnspan=2, padx=33)
-btnExit.pack(side='top', padx=33, pady=25)
+btnExit.pack(side='top', padx=33, pady=19)
 # btnExit.pack(side='top', padx=33, pady=20)
+
+# btnSelectColor = ttk.Button(frmSelectColor, text='Select Color', style='success.TButton', cursor="hand2", width=12)
+# # btnSelectColor.grid(row=2, column=0, padx=5, pady=19)
+# btnSelectColor.pack(side='top', padx=33, pady=19)
+# # btnSelectColor.pack(side='top', padx=33, pady=20)
 
 
 # Slider
@@ -124,7 +137,7 @@ sldValueMax.grid(row=2, column=1, padx=20, pady=10)
 
 window.title("Virtual Paint")
 # window.geometry("1280x720")
-# window.resizable(0, 0)
+window.resizable(0, 0)
 window.mainloop()
 
 
