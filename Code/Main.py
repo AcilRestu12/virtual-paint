@@ -4,6 +4,7 @@ from tkinter import *
 from ttkbootstrap import Style
 from tkinter import ttk
 import tkinter as tk
+from tkinter import filedialog
 from PIL import Image, ImageTk
 
 
@@ -26,6 +27,20 @@ colorPoint = [                           # BGR
 
 points = []                               # x, y, colorId
 
+
+def saveAsPicture():
+    global imgResult, idAfter
+    
+    lblOriImg.after_cancel(idAfter)
+    imgSave = opencv2Pill(imgResult)
+
+    extension = [("JPG File", "*.jpg")]
+    file = filedialog.asksaveasfile(filetypes = extension, defaultextension = extension)
+    if file:
+        imgSave.save(file)
+        
+    lblOriImg.after(1, videoStream)
+    
 
 def findColor(img, colorObject, colorPoint):
     global imgResult
@@ -87,7 +102,7 @@ def drawOnCanvas(points, colorPoint):
 
 
 
-def setOriginal(img):
+def setResult(img):
     imgTk = ImageTk.PhotoImage(img)
     lblOriImg.configure(image=imgTk)
     lblOriImg.image = imgTk
@@ -97,22 +112,18 @@ def opencv2Pill(img):
     img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
     imgPill = Image.fromarray(img)
     return imgPill
-    
+
 def resizeImg(img, width, height):
     img = cv.resize(img, (width, height), interpolation=cv.INTER_CUBIC)
     return img
 
 
 def videoStream():
-    global cap, imgResult
+    global cap, imgResult, idAfter
     
     sucess, img = cap.read()
-    imgCV = cv.cvtColor(img, cv.COLOR_BGR2RGBA)
-    imgCV = resizeImg(imgCV, 852, 480)
-    imgPill = Image.fromarray(imgCV)
-    imgtk = ImageTk.PhotoImage(image=imgPill)
     
-    
+    img = resizeImg(img, 852, 480)
     imgResult = img.copy()
     newPoints = findColor(img, colorObject, colorPoint)
     if len(newPoints) != 0:
@@ -122,10 +133,8 @@ def videoStream():
     if len(points) != 0:
         drawOnCanvas(points, colorPoint)
     
-    lblOriImg.imgtk = imgtk
-    lblOriImg.configure(image=imgtk)
-    lblOriImg.pack()
-    lblOriImg.after(1, videoStream)
+    setResult(opencv2Pill(imgResult))
+    idAfter = lblOriImg.after(1, videoStream)
     
 
 
@@ -143,13 +152,10 @@ if __name__ == '__main__':
 
     # Size window : 852 x 480
     frmImgOri = ttk.Frame(frm, style='secondary.TFrame', width=852, height=480)
-    # frmImgOri.pack_propagate(0)
     frmImgOri.grid(row=0, column=0, padx=25, pady=25)
 
 
     frmBtn = ttk.Frame(frm, style='secondary.TFrame', width=852, height=150)
-    # frmBtn.pack_propagate(0)
-    # frmBtn.pack(side="left", padx=20, pady=30)
     frmBtn.grid(row=1, column=0, padx=25, pady=(10,50))
 
     lblOriImg = ttk.Label(frmImgOri)
@@ -157,23 +163,18 @@ if __name__ == '__main__':
 
 
     btnCls = ttk.Button(frmBtn, text='Clear Canvas', style='success.TButton', cursor="hand2")
-    # btnCls.grid(row=2, column=0, padx=5, pady=10)
     btnCls.pack(side='left', padx=37, pady=10)
 
-    btnSave = ttk.Button(frmBtn, text='Save as Picture', style='success.TButton', cursor="hand2")
-    # btnSave.grid(row=2, column=0, padx=5, pady=10)
+    btnSave = ttk.Button(frmBtn, text='Save as Picture', style='success.TButton', cursor="hand2",command=saveAsPicture)
     btnSave.pack(side='left', padx=37, pady=10)
 
     btnSetDraw = ttk.Button(frmBtn, text='Set Draw', style='success.TButton', cursor="hand2")
-    # btnSetDraw.grid(row=2, column=0, padx=5, pady=10)
     btnSetDraw.pack(side='left', padx=37, pady=10)
 
     btnAddColor = ttk.Button(frmBtn, text='Add Color Detection', style='success.TButton', cursor="hand2")
-    # btnAddColor.grid(row=2, column=0, padx=5, pady=10)
     btnAddColor.pack(side='left', padx=37, pady=10)
 
-    btnExit = ttk.Button(frmBtn, text='Exit', style='danger.TButton', cursor="hand2")
-    # btnExit.grid(row=0, column=2, columnspan=2, padx=20)
+    btnExit = ttk.Button(frmBtn, text='Exit', style='danger.TButton', cursor="hand2", command=lambda: exit())
     btnExit.pack(side='left', padx=37, pady=10)
 
     cap = cv.VideoCapture(0)
